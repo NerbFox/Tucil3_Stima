@@ -50,8 +50,9 @@ public class algo {
         List<Integer> startList = new ArrayList<Integer>();
         startList.add(start);
         UCSQueue.add(new Tuple<List<Integer>, Integer>(startList, 0));
+
         while (! UCSQueue.peek().getItem1().get(0).equals(goal)) {
-            printUCSQueue();
+            // printUCSQueue();
             // ambil elemen pertama dari queue
             Tuple<List<Integer>, Integer> temp = UCSQueue.poll();
             Integer tempInt = temp.getItem1().get(0);
@@ -119,10 +120,15 @@ public class algo {
 
     public void printUCSQueue() {
         System.out.println("UCSQueue");
-        while (!UCSQueue.isEmpty()) {
+        for (int i = 0; i < UCSQueue.size(); i++) {
             Tuple<List<Integer>, Integer> t = UCSQueue.poll();
             System.out.println(t.getItem1() + " " + t.getItem2());
+            UCSQueue.add(t);
         }
+        // while (!UCSQueue.isEmpty()) {
+        //     Tuple<List<Integer>, Integer> t = UCSQueue.poll();
+        //     System.out.println(t.getItem1() + " " + t.getItem2());
+        // }
     }
         
 }
