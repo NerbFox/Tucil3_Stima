@@ -1,5 +1,5 @@
 import java.util.*;
-import java.io.*;
+// import java.io.*;
 public class algo {
     // PriorityQueue untuk UCS tuple String, Integer
     private PriorityQueue< Tuple<List<Integer>, Integer> > UCSQueue;

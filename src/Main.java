@@ -44,17 +44,16 @@ public class Main {
         } else {
             // algoritma UCS
             System.out.println("UCS");
-
             var algo = new algo(data);
-            algo.temp();
-            // algo.algoUCS();
-            // // print hasil
-            // System.out.println("Hasil:");
-            // for (int i = 0; i < algo.getPath().size(); i++) {
-            //     System.out.print(algo.getPath().get(i) + " ");
-            // }
-            // System.out.println();
-            // System.out.println("Jarak: " + algo.getDistance());
+            // algo.temp();
+            algo.algoUCS();
+            // print hasil
+            System.out.println("Hasil:");
+            for (int i = 0; i < algo.getPath().size(); i++) {
+                System.out.print(algo.getPath().get(i) + " ");
+            }
+            System.out.println();
+            System.out.println("Jarak: " + algo.getDistance());
         }
         scanner.close();
     }
