@@ -37,7 +37,7 @@ class input {
     private List<List<Integer>> adjacencyMatrix;
     private List<Tuple<Double, Double>> coordinates;
     private List<String> names;
-    private List<List<Double>> euclideanDistance;
+    private List<Double> euclideanDistToGoal;
     private List<List<Double>> heuristic;
     private Integer start;
     private Integer goal;
@@ -47,7 +47,7 @@ class input {
         adjacencyMatrix = new ArrayList<List<Integer>>();
         coordinates = new ArrayList<Tuple<Double, Double>>();
         names = new ArrayList<String>();
-        euclideanDistance = new ArrayList<List<Double>>();
+        euclideanDistToGoal = new ArrayList<Double>();
         heuristic = new ArrayList<List<Double>>();
         start = 0;
         goal = 0;
@@ -62,8 +62,8 @@ class input {
     public List<String> getNames(){
         return names;
     }
-    public List<List<Double>> getEuclideanDistance(){
-        return euclideanDistance;
+    public List<Double> getEuclideanDistToGoal(){
+        return euclideanDistToGoal;
     }
     public List<List<Double>> getHeuristic(){
         return heuristic;
@@ -215,18 +215,14 @@ class input {
             }
         }
         
-        // menghitung jarak antar simpul dan memasukkannya ke dalam euclideanDistance 
+        // menghitung jarak dari simpul ke goal dan memasukkannya ke dalam euclideanDistToGoal
+        Double goalX = coordinates.get(goal).getItem1();
+        Double goalY = coordinates.get(goal).getItem2();
+        Double x, y;
         for (int i = 0; i < coordinates.size(); i++){
-            List<Double> row = new ArrayList<Double>();
-            for (int j = 0; j < coordinates.size(); j++){
-                double x1 = coordinates.get(i).getItem1();
-                double y1 = coordinates.get(i).getItem2();
-                double x2 = coordinates.get(j).getItem1();
-                double y2 = coordinates.get(j).getItem2();
-                double distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
-                row.add(distance);
-            }
-            euclideanDistance.add(row);
+            x = coordinates.get(i).getItem1();
+            y = coordinates.get(i).getItem2();
+            euclideanDistToGoal.add(Math.sqrt(Math.pow(goalX - x, 2) + Math.pow(goalY - y, 2)));
         }
 
         // print adjacency matrix
@@ -244,11 +240,8 @@ class input {
         }
         // print euclidean distance
         System.out.println("\nJarak Euclidean antar simpul:");
-        for (int i = 0; i < euclideanDistance.size(); i++) {
-            for (int j = 0; j < euclideanDistance.get(i).size(); j++) {
-                System.out.print(euclideanDistance.get(i).get(j) + " ");
-            }
-            System.out.println();
+        for (int i = 0; i < euclideanDistToGoal.size(); i++) {
+            System.out.println(euclideanDistToGoal.get(i));
         }
         // print start and goal index
         System.out.println("\nSimpul awal: " + startName + " (" + start + ")");
