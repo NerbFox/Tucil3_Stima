@@ -31,12 +31,13 @@ public class algo {
     public Integer getDistance() {
         return distance;
     }
-    public void algoUCS(){
-        // inisialisasi clear all attribute
+    public void reset() {
         UCSQueue.clear();
         path.clear();
         distance = 0;
-
+    }
+    public void algoUCS(){
+        reset();
         // inisiasi jumlah kolom atau baris dari adjacency matrix
         int n = data.getAdjacencyMatrix().get(0).size();
         Integer start = data.getStart();
@@ -130,72 +131,18 @@ public class algo {
         //     System.out.println(t.getItem1() + " " + t.getItem2());
         // }
     }
+    
+    public void algoAstar(){
+        reset();
+        // inisiasi jumlah kolom atau baris dari adjacency matrix
+        int n = data.getAdjacencyMatrix().get(0).size();
+        Integer start = data.getStart();
+        Integer goal = data.getGoal();
+        // algoritma A*
         
+
+    }
+
 }
 
  
-//  // ambil elemen pertama dari queue
-//  Tuple<List<Integer>, Integer> temp = UCSQueue.poll();
-//  // cek apakah sudah pernah dikunjungi
-//  if (temp.getItem1().size() > 0) {
-//      List<Integer> tempVisited = temp.getItem1();
-//      tempVisited.remove(tempVisited.size() - 1);
-//      if (tempVisited.containsAll(UCSQueue.peek().getItem1())) {
-//          continue;
-//      }
-//  }
-//  // tambahkan ke visited
-//  UCSQueue.peek().getItem1().add(UCSQueue.peek().getItem1().get(UCSQueue.peek().getItem1().size() - 1));
-//  // tambahkan ke queue
-//  for (int i = 0; i < n; i++) {
-//      if (data.getAdjacencyMatrix().get(UCSQueue.peek().getItem1().get(UCSQueue.peek().getItem1().size() - 1)).get(i) != 0) {
-//          List<Integer> path = new ArrayList<Integer>();
-//          path = UCSQueue.peek().getItem1();
-//          path.add(i);
-//          int tempCost = UCSQueue.peek().getItem2() + data.getAdjacencyMatrix().get(UCSQueue.peek().getItem1().get(UCSQueue.peek().getItem1().size() - 1)).get(i);
-//          UCSQueue.add(new Tuple<List<Integer>, Integer>(path, tempCost));
-//      }
-//  }
-// }
-
-
-
-// List<Integer> visited = new ArrayList<Integer>();
-// List<Integer> path = new ArrayList<Integer>();
-// List<Integer> tempPath = new ArrayList<Integer>();
-// List<Integer> tempVisited = new ArrayList<Integer>();
-// int tempCost = 0;
-// // inisialisasi queue
-// UCSQueue.add(new Tuple<List<Integer>, Integer>(path, tempCost));
-// // loop
-// while (!UCSQueue.isEmpty()) {
-//     // ambil elemen terdepan
-//     Tuple<List<Integer>, Integer> temp = UCSQueue.poll();
-//     tempPath = temp.getItem1();
-//     tempCost = temp.getItem2();
-//     // cek apakah sudah sampai
-//     if (tempPath.size() > 0 && tempPath.get(tempPath.size() - 1) == goal) {
-//         // print path
-//         System.out.println("Path: " + tempPath);
-//         System.out.println("Cost: " + tempCost);
-//         break;
-//     }
-//     // cek apakah sudah pernah dikunjungi
-//     if (tempPath.size() > 0) {
-//         tempVisited = tempPath;
-//         tempVisited.remove(tempVisited.size() - 1);
-//     }
-//     if (tempVisited.containsAll(visited)) {
-//         continue;
-//     }
-//     // tambahkan ke visited
-//     visited.add(tempPath.get(tempPath.size() - 1));
-//     // tambahkan ke queue
-//     for (int i = 0; i < n; i++) {
-//         if (data.getAdjacencyMatrix().get(tempPath.get(tempPath.size() - 1)).get(i) != 0) {
-//             path = new ArrayList<Integer>(tempPath);
-//             path.add(i);
-//             UCSQueue.add(new Tuple<List<Integer>, Integer>(path, tempCost + data.getAdjacencyMatrix().get(tempPath.get(tempPath.size() - 1)).get(i)));
-//         }
-//     }
-// }

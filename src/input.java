@@ -35,7 +35,8 @@ Euclidean.
 class input {
     // input file from google maps api and convert it to adjacency matrix
     private List<List<Integer>> adjacencyMatrix;
-    private List<List<Double>> coordinates;
+    private List<Tuple<Double, Double>> coordinates;
+    private List<String> names;
     private List<List<Double>> euclideanDistance;
     private List<List<Double>> heuristic;
     private Integer start;
@@ -44,7 +45,8 @@ class input {
     public input(){
         // initialize all the variables with empty
         adjacencyMatrix = new ArrayList<List<Integer>>();
-        coordinates = new ArrayList<List<Double>>();
+        coordinates = new ArrayList<Tuple<Double, Double>>();
+        names = new ArrayList<String>();
         euclideanDistance = new ArrayList<List<Double>>();
         heuristic = new ArrayList<List<Double>>();
         start = 0;
@@ -54,8 +56,11 @@ class input {
     public List<List<Integer>> getAdjacencyMatrix(){
         return adjacencyMatrix;
     }
-    public List<List<Double>> getCoordinates(){
+    public List<Tuple<Double, Double>> getCoordinates(){
         return coordinates;
+    }
+    public List<String> getNames(){
+        return names;
     }
     public List<List<Double>> getEuclideanDistance(){
         return euclideanDistance;
@@ -72,43 +77,157 @@ class input {
     // setter for reading file
     public void setter(){
         var inp = new Scanner(System.in);
-        System.out.print("Masukkan nama file: ");
+
+        // Membaca file adjacency matrix
+        System.out.print("Masukkan nama file adjacency matrix: ");
         String filename = inp.nextLine();
-        // Membaca file dari folder tests
         File file = new File("../tests/" + filename + ".txt");
         while (!file.exists()){
             System.out.println("File " + filename + " tidak ditemukan");
-            System.out.print("Masukkan nama file: ");
+            System.out.print("Masukkan nama file adjacency matrix: ");
             filename = inp.nextLine();
             file = new File("../tests/" + filename + ".txt");
         }
         
         // Membaca isi file dan memasukkannya ke dalam adjacency matrix
-        try {
-            Scanner myReader = new Scanner(file);
-            while (myReader.hasNextLine()) {
-                String data = myReader.nextLine();
-                String[] dataSplit = data.split(" ");
-                List<Integer> row = new ArrayList<Integer>();
-                for (int i = 0; i < dataSplit.length; i++){
-                    row.add(Integer.parseInt(dataSplit[i]));
-                    // row2.add(Integer.parseInt(dataSplit[i]));
-                    // row3.add(Integer.parseInt(dataSplit[i]));
-                    // row4.add(Integer.parseInt(dataSplit[i]));
+        boolean isValidFile = false;
+        while (!isValidFile){
+            try {
+                Scanner myReader = new Scanner(file);
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    String[] dataSplit = data.split(" ");
+                    List<Integer> row = new ArrayList<Integer>();
+                    for (int i = 0; i < dataSplit.length; i++){
+                        row.add(Integer.parseInt(dataSplit[i]));
+                    }
+                    adjacencyMatrix.add(row);
                 }
-                adjacencyMatrix.add(row);
+                myReader.close();
+                isValidFile = true;
+            } catch (IOException e) {
+                System.out.println("An error occurred while reading the file.");
+                e.printStackTrace();
             }
-            myReader.close();
-        } catch (IOException e) {
-            System.out.println("An error occurred while reading the file.");
-            e.printStackTrace();
         }
 
+        
+        
+        // ------------------------------------------------------------ //
+        // baca file koordinat
+        System.out.print("Masukkan nama file koordinat: ");
+        filename = inp.nextLine();
+        // Membaca file dari folder tests
+        file = new File("../tests/" + filename + ".txt");
+        // contoh isi file  
+        // 1.2 3.4 jalan1
+        // 2.3 4.5 jalan2
+        // baca file koordinat dan masukkan ke dalam coordinates dan names
+        while (!file.exists()){
+            System.out.println("File " + filename + " tidak ditemukan");
+            System.out.print("Masukkan nama file koordinat: ");
+            filename = inp.nextLine();
+            file = new File("../tests/" + filename + ".txt");
+        }
+        isValidFile = false;
+        while (!isValidFile){
+            try {
+                boolean colomnOutOfBound = false;
+                Scanner myReader = new Scanner(file);
+                while (myReader.hasNextLine()) {
+                    String data = myReader.nextLine();
+                    String[] dataSplit = data.split(" ");
+                    if (dataSplit.length != 3){
+                        System.out.println("Jumlah kolom pada file koordinat tidak sesuai");
+                        colomnOutOfBound = true;
+                        break;
+                    }
+                    coordinates.add(new Tuple<Double, Double>(Double.parseDouble(dataSplit[0]), Double.parseDouble(dataSplit[1])));
+                    names.add(dataSplit[2]);
+                }
+                myReader.close();
+                // cek apakah jumlah koordinat sama dengan jumlah simpul
+                isValidFile = true;
+                if (coordinates.size() != adjacencyMatrix.get(0).size()){
+                    isValidFile = false;
+                    System.out.println("Jumlah koordinat tidak sama dengan jumlah simpul");
+                }
+                if (colomnOutOfBound){
+                    isValidFile = false;
+                }
+                // baca ulang file jika tidak valid
+                if (!isValidFile){
+                    System.out.print("Masukkan nama file koordinat: ");
+                    filename = inp.nextLine();
+                    file = new File("../tests/" + filename + ".txt");
+                }
+                while (!file.exists()){
+                    System.out.println("File " + filename + " tidak ditemukan");
+                    System.out.print("Masukkan nama file koordinat: ");
+                    filename = inp.nextLine();
+                    file = new File("../tests/" + filename + ".txt");
+                }
+            } catch (IOException e) {
+                System.out.println("An error occurred while reading the file.");
+                e.printStackTrace();
+            }
+        }
+
+
+
+        // Membaca file dari coordinates dalam google maps dan memasukkannya ke dalam coordinates
+        
+        
         // input start and goal index
-        System.out.print("Masukkan simpul awal: ");
-        start = inp.nextInt();
-        System.out.print("Masukkan simpul tujuan: ");
-        goal = inp.nextInt();
+        // System.out.print("Masukkan simpul awal: ");
+        // start = inp.nextInt();
+        // System.out.print("Masukkan simpul tujuan: ");
+        // goal = inp.nextInt();
+
+        // input berupa nama simpul
+        System.out.print("Masukkan nama posisi awal: ");
+        String startName = inp.nextLine();
+        System.out.print("Masukkan nama posisi tujuan: ");
+        String goalName = inp.nextLine();
+        start = -1; goal = -1;
+        for (int i = 0; i < names.size(); i++){
+            if (names.get(i).equals(startName)){
+                start = i;
+            }
+            if (names.get(i).equals(goalName)){
+                goal = i;
+            }
+        }
+        while(start == -1 || goal == -1){
+            System.out.println("Nama simpul tidak ditemukan");
+            System.out.print("Masukkan nama posisi awal: ");
+            startName = inp.nextLine();
+            System.out.print("Masukkan nama posisi tujuan: ");
+            goalName = inp.nextLine();
+            start = -1; goal = -1;
+            for (int i = 0; i < names.size(); i++){
+                if (names.get(i).equals(startName)){
+                    start = i;
+                }
+                if (names.get(i).equals(goalName)){
+                    goal = i;
+                }
+            }
+        }
+        
+        // menghitung jarak antar simpul dan memasukkannya ke dalam euclideanDistance 
+        for (int i = 0; i < coordinates.size(); i++){
+            List<Double> row = new ArrayList<Double>();
+            for (int j = 0; j < coordinates.size(); j++){
+                double x1 = coordinates.get(i).getItem1();
+                double y1 = coordinates.get(i).getItem2();
+                double x2 = coordinates.get(j).getItem1();
+                double y2 = coordinates.get(j).getItem2();
+                double distance = Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+                row.add(distance);
+            }
+            euclideanDistance.add(row);
+        }
 
         // print adjacency matrix
         System.out.println("\nAdjacency Matrix:");
@@ -118,13 +237,25 @@ class input {
             }
             System.out.println();
         }
+        // print coordinates and names
+        System.out.println("\nKoordinat dan nama simpul:");
+        for (int i = 0; i < coordinates.size(); i++) {
+            System.out.println(coordinates.get(i).getItem1() + " " + coordinates.get(i).getItem2() + " " + names.get(i));
+        }
+        // print euclidean distance
+        System.out.println("\nJarak Euclidean antar simpul:");
+        for (int i = 0; i < euclideanDistance.size(); i++) {
+            for (int j = 0; j < euclideanDistance.get(i).size(); j++) {
+                System.out.print(euclideanDistance.get(i).get(j) + " ");
+            }
+            System.out.println();
+        }
         // print start and goal index
-        System.out.println("\nSimpul awal: " + start);
-        System.out.println("Simpul tujuan: " + goal);
-        
-        // Membaca file dari coordinates dalam google maps dan memasukkannya ke dalam coordinates
-        
-
+        System.out.println("\nSimpul awal: " + startName + " (" + start + ")");
+        System.out.println("Simpul tujuan: " + goalName + " (" + goal + ")");
         inp.close();
+    }
+    public Double euclideanDistance(Double x1, Double y1, Double x2, Double y2){
+        return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
 }

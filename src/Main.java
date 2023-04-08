@@ -1,6 +1,7 @@
 import java.util.*;
 // import java.io.*;
-
+// javac Main.java algo.java input.java Tuple.java 
+// java Main
 public class Main {
     public static void main(String[] args) {
         // pilihan algoritma
