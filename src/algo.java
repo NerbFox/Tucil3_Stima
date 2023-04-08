@@ -198,14 +198,63 @@ public class algo {
     }
     // change yg ucs to Double aja biar bisa dijadikan template
     // make A* and UCS a template method 
-    // private void templateFunctionPath(List<Integer> path, Integer distance, PriorityQueue<Tuple<List<Integer>, Integer>> UCSQueue, PriorityQueue<Tuple<List<Integer>, Double>> AStrQueue){
-    //     // ambil elemen pertama dari queue dan masukkan ke path
-    //     path = tempPath.getItem1();
-    //     // pindahkan elemen pertama dari path ke elemen terakhir
-    //     path.add(path.get(0));
-    //     path.remove(0);
-    //     // ambil elemen kedua dari queue dan masukkan ke distance
-    //     distance = tempPath.getItem2();
+    public void templateFunctionPath(int mode){
+        // mode 1 = UCS
+        // mode 2 = A*
+        // gunakan Astr PriorityQueue untuk UCS dan A* 
+        // UCS tinggal di cast ke Integer
+        int n = data.getAdjacencyMatrix().get(0).size();
+        Integer start = data.getStart();
+        Integer goal = data.getGoal();
+        List<Double> hn = data.getEuclideanDistToGoal();
+        // add start node to queue
+        // initialize Tuple start list with one element start and cost 0
+        List<Integer> startList = new ArrayList<Integer>();
+        startList.add(start);
+        AStrQueue.add(new Tuple<List<Integer>, Double>(startList, 0.0));
+        
+        while (! AStrQueue.peek().getItem1().get(0).equals(goal)) {
+            // ambil elemen pertama dari queue
+            Tuple<List<Integer>, Double> temp = AStrQueue.poll();
+            Integer tempInt = temp.getItem1().get(0);
+            // add semua node adjacent ke queue 
+            for (int i = 0; i < n; i++) {
+                if (! data.getAdjacencyMatrix().get(tempInt).get(i).equals(0)) {
+                    Double cost = data.getAdjacencyMatrix().get(tempInt).get(i).doubleValue();
+                    List<Integer> tempList = new ArrayList<Integer>();
+                    // copy temp.getItem1() to tempList
+                    tempList.addAll(temp.getItem1());
+                    // remove first element from tempList
+                    tempList.remove(0);
+                    tempList.add(tempInt); // add parent node
+                    // add i to tempList to first element
+                    tempList.add(0, i);
+                    // increase cost and make new tuple with cost + recent cost + heuristic cost
+                    if (mode == 1) {
+                        Tuple<List<Integer>, Double> tempTuple = new Tuple<List<Integer>, Double>(tempList, cost + temp.getItem2());
+                        // add tempTuple to AStrQueue with priority from lowest Integer to highest Integer from second element of tuple
+                        AStrQueue.add(tempTuple);
+                    } else if (mode == 2) {
+                        // increase cost and make new tuple with cost + recent cost + heuristic cost
+                        Tuple<List<Integer>, Double> tempTuple = new Tuple<List<Integer>, Double>(tempList, cost + temp.getItem2() + hn.get(i));
+                        // add tempTuple to AStrQueue with priority from lowest Integer to highest Integer from second element of tuple
+                        AStrQueue.add(tempTuple);
+                    }
+                    // add tempTuple to AStrQueue with priority from lowest Integer to highest Integer from second element of tuple
+                    // AStrQueue.add(tempTuple);
+                }
+            }
+        }
+        Tuple<List<Integer>, Double> tempPath = AStrQueue.poll();
+        // ambil elemen pertama dari queue dan masukkan ke path
+        path = tempPath.getItem1();
+        // pindahkan elemen pertama dari path ke elemen terakhir
+        path.add(path.get(0));
+        path.remove(0);
+        // ambil elemen kedua dari queue dan masukkan ke distance
+        this.distanceD = tempPath.getItem2();
+
+    }
 
 }
 
