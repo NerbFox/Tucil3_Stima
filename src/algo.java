@@ -93,13 +93,37 @@ public class algo {
             fnS = hn.get(start);
         }
         PrioQueue.add(new Tuple<List<Integer>, Double>(startList, fnS));
-        
-        while (! PrioQueue.peek().getItem1().get(0).equals(goal)) {
+
+        // // Cara di ppt
+        // // selama index 0 dari tuple pertama dari queue tidak sama dengan goal
+        // while (! PrioQueue.peek().getItem1().get(0).equals(goal)) {
+        //     // ambil elemen pertama dari queue
+        //     Tuple<List<Integer>, Double> temp = PrioQueue.poll();
+        //     // print tuple yang diambil
+        //     System.out.println(temp.getItem1() + " " + temp.getItem2());
+        //     Integer tempInt = temp.getItem1().get(0);
+        //     // add semua node adjacent ke queue 
+        //     for (int i = 0; i < n; i++) {
+        //         if (! data.getAdjacencyMatrix().get(tempInt).get(i).equals(0)) {
+        //             Double cost = data.getAdjacencyMatrix().get(tempInt).get(i).doubleValue();
+        //             List<Integer> tempList = new ArrayList<Integer>();
+        //             // copy temp.getItem1() to tempList
+        //             tempList.addAll(temp.getItem1());
+        //             // remove first element from tempList
+        //             tempList.remove(0);
+        //             tempList.add(tempInt); // add parent node
+        //             // add i to tempList to first element
+        //             tempList.add(0, i);
+
+        // instead of peek first element (must remove first element, add to last element), peek last element (no need to remove and add the first element)
+
+        // selama indeks terakhir tidak sama dengan goal
+        while (! PrioQueue.peek().getItem1().get(PrioQueue.peek().getItem1().size() - 1).equals(goal)) { 
             // ambil elemen pertama dari queue
             Tuple<List<Integer>, Double> temp = PrioQueue.poll();
             // print tuple yang diambil
             System.out.println(temp.getItem1() + " " + temp.getItem2());
-            Integer tempInt = temp.getItem1().get(0);
+            Integer tempInt = temp.getItem1().get(temp.getItem1().size() - 1);
             // add semua node adjacent ke queue 
             for (int i = 0; i < n; i++) {
                 if (! data.getAdjacencyMatrix().get(tempInt).get(i).equals(0)) {
@@ -107,11 +131,9 @@ public class algo {
                     List<Integer> tempList = new ArrayList<Integer>();
                     // copy temp.getItem1() to tempList
                     tempList.addAll(temp.getItem1());
-                    // remove first element from tempList
-                    tempList.remove(0);
-                    tempList.add(tempInt); // add parent node
-                    // add i to tempList to first element
-                    tempList.add(0, i);
+                    tempList.add(i);
+
+
                     // increase cost and make new tuple with cost + recent cost + heuristic cost
                     Double gn = temp.getItem2() + cost;
                     Double fn = 0.0;
@@ -138,9 +160,9 @@ public class algo {
         this.distanceD = tempPath.getItem2();
         // ambil elemen pertama dari queue dan masukkan ke path
         path = tempPath.getItem1();
-        // pindahkan elemen pertama dari path ke elemen terakhir
-        path.add(path.get(0));
-        path.remove(0);
+        // // pindahkan elemen pertama dari path ke elemen terakhir
+        // path.add(path.get(0));
+        // path.remove(0);
 
     }
 
