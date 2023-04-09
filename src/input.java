@@ -38,7 +38,6 @@ class input {
     private List<Tuple<Double, Double>> coordinates;
     private List<String> names;
     private List<Double> euclideanDistToGoal;
-    private List<List<Double>> heuristic;
     private Integer start;
     private Integer goal;
     // constructor
@@ -48,7 +47,6 @@ class input {
         coordinates = new ArrayList<Tuple<Double, Double>>();
         names = new ArrayList<String>();
         euclideanDistToGoal = new ArrayList<Double>();
-        heuristic = new ArrayList<List<Double>>();
         start = 0;
         goal = 0;
     }
@@ -64,9 +62,6 @@ class input {
     }
     public List<Double> getEuclideanDistToGoal(){
         return euclideanDistToGoal;
-    }
-    public List<List<Double>> getHeuristic(){
-        return heuristic;
     }
     public Integer getStart(){
         return start;
