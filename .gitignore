@@ -1,0 +1,6 @@
+*.o
+*.class
+src/App/build/
+src/App/app/build
+
+!.gitignore
