@@ -21,40 +21,54 @@ public class Main {
         data.setter();
         // pilihan heuristik
         if (pilihan.equals("2")) {
-            System.out.println("Pilih heuristik yang ingin digunakan:");
-            System.out.println("1. Manhattan");
-            System.out.println("2. Euclidean");
-            System.out.print("Masukkan pilihan: ");
-            int pilihan2 = scanner.nextInt();
-            while (pilihan2 != 1 && pilihan2 != 2) {
-                System.out.println("Pilihan tidak valid");
-                System.out.print("Masukkan pilihan: ");
-                pilihan2 = scanner.nextInt();
-            }
-            if (pilihan2 == 1) {
-                // algoritma A* dengan heuristik Manhattan
-                // var algo = new Algo(data.getAdjacencyMatrix(), data.getCoordinates(),
-                // data.getManhattanDistance());
-                // algo.AStar();
-            } else {
-                // algoritma A* dengan heuristik Euclidean
-                // var algo = new Algo(data.getAdjacencyMatrix(), data.getCoordinates(),
-                // data.getEuclideanDistance());
-                // algo.AStar();
-            }
-        } else {
-            // algoritma UCS
-            System.out.println("UCS");
+            // algoritma A* dengan heuristik Euclidean
+            System.out.println("A*");
             var algo = new algo(data);
-            // algo.temp();
-            algo.algoUCS();
+            // algo.algoAstar();
+            algo.templateFunctionPath(2);
             // print hasil
             System.out.println("Hasil:");
             for (int i = 0; i < algo.getPath().size(); i++) {
                 System.out.print(algo.getPath().get(i) + " ");
             }
             System.out.println();
-            System.out.println("Jarak: " + algo.getDistance());
+            System.out.println("Jarak: " + algo.getDistanceD());
+
+            // System.out.println("Pilih heuristik yang ingin digunakan:");
+            // System.out.println("1. Manhattan");
+            // System.out.println("2. Euclidean");
+            // System.out.print("Masukkan pilihan: ");
+            // String Pilihan2 = scanner.nextLine();
+            // while (!Pilihan2.equals("1") && !Pilihan2.equals("2")) {
+            //     System.out.println("Pilihan tidak valid");
+            //     System.out.print("Masukkan pilihan: ");
+            //     Pilihan2 = scanner.nextLine();
+            // }
+            // if (Pilihan2 == "1") {
+            //     // algoritma A* dengan heuristik Manhattan
+            //     // var algo = new Algo(data.getAdjacencyMatrix(), data.getCoordinates(),
+            //     // data.getManhattanDistance());
+            //     // algo.AStar();
+            // } else {
+            //     // algoritma A* dengan heuristik Euclidean
+            //     // var algo = new Algo(data.getAdjacencyMatrix(), data.getCoordinates(),
+            //     // data.getEuclideanDistance());
+            //     // algo.AStar();
+            // }
+        } else {
+            // algoritma UCS
+            System.out.println("UCS");
+            var algo = new algo(data);
+            // algo.temp();
+            // algo.algoUCS();
+            algo.templateFunctionPath(1);
+            // print hasil
+            System.out.println("Hasil:");
+            for (int i = 0; i < algo.getPath().size(); i++) {
+                System.out.print(algo.getPath().get(i) + " ");
+            }
+            System.out.println();
+            System.out.println("Jarak: " + algo.getDistanceD());
         }
         scanner.close();
     }

@@ -239,7 +239,7 @@ class input {
             System.out.println(coordinates.get(i).getItem1() + " " + coordinates.get(i).getItem2() + " " + names.get(i));
         }
         // print euclidean distance
-        System.out.println("\nJarak Euclidean antar simpul:");
+        System.out.println("\nJarak Euclidean dari simpul ke simpul tujuan:");
         for (int i = 0; i < euclideanDistToGoal.size(); i++) {
             System.out.println(euclideanDistToGoal.get(i));
         }
