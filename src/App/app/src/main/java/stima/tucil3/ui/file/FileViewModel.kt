@@ -6,8 +6,4 @@ import androidx.lifecycle.ViewModel
 
 class FileViewModel : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Chosen file"
-    }
-    val text: LiveData<String> = _text
 }

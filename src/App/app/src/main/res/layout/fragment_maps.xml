@@ -41,7 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.028"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"/>
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/text_matrixname"
@@ -89,7 +89,7 @@
 
             <TextView
                 android:id="@+id/text_goal_label"
-                android:layout_width="58dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="36dp"
                 android:text="@string/goal_label"
@@ -100,33 +100,33 @@
                 app:layout_constraintHorizontal_bias="0.022"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_coorname"
-                app:layout_constraintVertical_bias="0.002" />
+                app:layout_constraintVertical_bias="0.004" />
 
             <Spinner
                 android:id="@+id/startDropdown"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="47dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="41dp"
                 android:textAlignment="textStart"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.009"
+                app:layout_constraintHorizontal_bias="0.02"
                 app:layout_constraintStart_toEndOf="@+id/text_goal_label"
                 app:layout_constraintTop_toBottomOf="@+id/text_coorname"
-                app:layout_constraintVertical_bias="0.004" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <TextView
                 android:id="@+id/text_start_label"
-                android:layout_width="58dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/start_label"
                 android:textAlignment="textStart"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.025"
+                app:layout_constraintHorizontal_bias="0.022"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_goal_label"
                 app:layout_constraintVertical_bias="0.0" />
@@ -135,7 +135,7 @@
                 android:id="@+id/goalDropdown"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="47dp"
+                android:layout_marginStart="5dp"
                 android:layout_marginTop="2dp"
                 android:textAlignment="textStart"
                 android:textSize="20sp"
@@ -144,19 +144,19 @@
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/text_start_label"
                 app:layout_constraintTop_toBottomOf="@+id/startDropdown"
-                app:layout_constraintVertical_bias="0.007" />
+                app:layout_constraintVertical_bias="0.039" />
 
             <TextView
                 android:id="@+id/text_algorithm_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
                 android:text="@string/algorithm_label"
                 android:textAlignment="textStart"
-                android:layout_marginTop="38dp"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.028"
+                app:layout_constraintHorizontal_bias="0.025"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_start_label"
                 app:layout_constraintVertical_bias="0.0" />
@@ -171,10 +171,10 @@
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.023"
+                app:layout_constraintHorizontal_bias="0.007"
                 app:layout_constraintStart_toEndOf="@+id/text_algorithm_label"
                 app:layout_constraintTop_toBottomOf="@+id/goalDropdown"
-                app:layout_constraintVertical_bias="0.157" />
+                app:layout_constraintVertical_bias="0.0" />
 
             <Button
                 android:id="@+id/button_run"
@@ -188,6 +188,64 @@
                 app:layout_constraintHorizontal_bias="0.024"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/text_algorithm_label"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/result_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
+                android:text="@string/result_label"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.023"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_run"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/text_result"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="38dp"
+                android:text="@string/notrun_label"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.023"
+                app:layout_constraintStart_toEndOf="@id/result_label"
+                app:layout_constraintTop_toBottomOf="@+id/button_run"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/distance_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/distance_label"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_result"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <TextView
+                android:id="@+id/text_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/notrun_label"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.023"
+                app:layout_constraintStart_toEndOf="@id/distance_label"
+                app:layout_constraintTop_toBottomOf="@+id/text_result"
                 app:layout_constraintVertical_bias="0.0" />
 
 

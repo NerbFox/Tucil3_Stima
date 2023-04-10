@@ -10,7 +10,6 @@ import android.widget.*
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import stima.tucil3.databinding.FragmentFileBinding
 import stima.tucil3.R
 import stima.tucil3.algo.Algo
@@ -29,6 +28,7 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
     private var startIdx: Int = 0
     private var goalIdx: Int = 0
     private val paths = arrayOf("UCS", "A*")
+    private val runner: Algo = Algo()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -43,31 +43,15 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     val validator = Input()
                     validator.readMatrix(fileContents)
 
-                    val fileViewModel =
-                        ViewModelProvider(this)[FileViewModel::class.java]
-                    val fileName: TextView = binding.textMatrixname
-                    fileViewModel.text.observe(viewLifecycleOwner) {
-                        fileName.text = fileContents
-                    }
+                    binding.textMatrixname.text = fileContents
                 }
                 catch (e: Exception){
-                    val fileViewModel =
-                        ViewModelProvider(this)[FileViewModel::class.java]
-                    val fileName: TextView = binding.textCoorname
-                    fileViewModel.text.observe(viewLifecycleOwner) {
-                        fileName.text = e.toString()
-                    }
+                    binding.textCoorname.text = e.toString()
                 }
             }
         }
         else if (requestCode == 1 && resultCode == AppCompatActivity.RESULT_CANCELED){
-            selectedMatrix = null
-            val fileViewModel =
-                ViewModelProvider(this)[FileViewModel::class.java]
-            val fileName: TextView = binding.textMatrixname
-            fileViewModel.text.observe(viewLifecycleOwner) {
-                fileName.text = resources.getString(R.string.unchosen_label)
-            }
+            binding.textMatrixname.text = resources.getString(R.string.unchosen_label)
         }
 
         if (requestCode == 2 && resultCode == AppCompatActivity.RESULT_OK) {
@@ -80,51 +64,32 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     val validator = Input()
                     validator.readCoor(fileContents)
 
-                    val fileViewModel =
-                        ViewModelProvider(this)[FileViewModel::class.java]
-                    val fileName: TextView = binding.textCoorname
-                    fileViewModel.text.observe(viewLifecycleOwner) {
-                        fileName.text = fileContents
-                    }
+                    binding.textCoorname.text = fileContents
 
-                    val startSelector: Spinner = binding.startDropdown
                     val startAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, validator.names)
                     startAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    startSelector.adapter = startAdapter
+                    binding.startDropdown.adapter = startAdapter
 
-                    val goalSelector: Spinner = binding.goalDropdown
                     val goalAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, validator.names)
                     goalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    goalSelector.adapter = goalAdapter
+                    binding.goalDropdown.adapter = goalAdapter
                 }
                 catch (e: Exception){
-                    val fileViewModel =
-                        ViewModelProvider(this)[FileViewModel::class.java]
-                    val fileName: TextView = binding.textCoorname
-                    fileViewModel.text.observe(viewLifecycleOwner) {
-                        fileName.text = e.toString()
-                    }
+                    binding.textCoorname.text = e.toString()
 
-                    val startSelector: Spinner = binding.startDropdown
                     val startAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("No valid file chosen"))
                     startAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    startSelector.adapter = startAdapter
+                    binding.startDropdown.adapter = startAdapter
 
-                    val goalSelector: Spinner = binding.goalDropdown
                     val goalAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("No valid file chosen"))
                     goalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-                    goalSelector.adapter = goalAdapter
+                    binding.goalDropdown.adapter = goalAdapter
                 }
             }
         }
         else if (requestCode == 2 && resultCode == AppCompatActivity.RESULT_CANCELED){
             selectedCoor = null
-            val fileViewModel =
-                ViewModelProvider(this)[FileViewModel::class.java]
-            val fileName: TextView = binding.textCoorname
-            fileViewModel.text.observe(viewLifecycleOwner) {
-                fileName.text = resources.getString(R.string.unchosen_label)
-            }
+            binding.textCoorname.text = resources.getString(R.string.unchosen_label)
 
             val startSelector: Spinner = binding.startDropdown
             val startAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("No valid file chosen"))
@@ -143,23 +108,15 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val fileViewModel =
-            ViewModelProvider(this)[FileViewModel::class.java]
-
         _binding = FragmentFileBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         //text initializations
-        val matrixName: TextView = binding.textMatrixname
-        val coorName: TextView = binding.textCoorname
-        fileViewModel.text.observe(viewLifecycleOwner) {
-            matrixName.text = resources.getString(R.string.unchosen_label)
-            coorName.text = resources.getString(R.string.unchosen_label)
-        }
+        binding.textMatrixname.text = resources.getString(R.string.unchosen_label)
+        binding.textCoorname.text = resources.getString(R.string.unchosen_label)
 
         //buttons
-        val matrixButton: Button = binding.buttonGetmatrix
-        matrixButton.setOnClickListener{
+        binding.buttonGetmatrix.setOnClickListener{
             val intent = Intent()
                 .setType("text/plain")
                 .setAction(Intent.ACTION_GET_CONTENT)
@@ -167,8 +124,7 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
             startActivityForResult(Intent.createChooser(intent, "Select a file"), 1)
         }
 
-        val coorButton: Button = binding.buttonGetcoordinates
-        coorButton.setOnClickListener{
+        binding.buttonGetcoordinates.setOnClickListener{
             val intent = Intent()
                 .setType("text/plain")
                 .setAction(Intent.ACTION_GET_CONTENT)
@@ -176,8 +132,7 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
             startActivityForResult(Intent.createChooser(intent, "Select a file"), 2)
         }
 
-        val runButton: Button = binding.buttonRun
-        runButton.setOnClickListener{
+        binding.buttonRun.setOnClickListener{
             if(selectedMatrix != null && selectedCoor != null){
                 var matrixContents: String? = null
                 var coorContents: String? = null
@@ -189,27 +144,36 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
                     coorContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
                 }
-                Algo().runAlgo(matrixContents!!, coorContents!!, algoType, startIdx, goalIdx)
+                runner.runAlgo(matrixContents!!, coorContents!!, algoType, startIdx, goalIdx)
+
+                var result = ""
+
+                for(i in runner.path){
+                    result += runner.data.names[i]
+                    if(i != runner.path.last()){
+                        result += ", "
+                    }
+                }
+
+                binding.textResult.text = result
+                binding.textDistance.text = runner.distanceD.toString()
             }
         }
 
-        val modeSelector: Spinner = binding.algoDropdown
         val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, paths)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        modeSelector.adapter = adapter
-        modeSelector.onItemSelectedListener = this
+        binding.algoDropdown.adapter = adapter
+        binding.algoDropdown.onItemSelectedListener = this
 
-        val startSelector: Spinner = binding.startDropdown
         val startAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("No valid file chosen"))
         startAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        startSelector.adapter = startAdapter
-        startSelector.onItemSelectedListener = this
+        binding.startDropdown.adapter = startAdapter
+        binding.startDropdown.onItemSelectedListener = this
 
-        val goalSelector: Spinner = binding.goalDropdown
         val goalAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("No valid file chosen"))
         goalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        goalSelector.adapter = goalAdapter
-        goalSelector.onItemSelectedListener = this
+        binding.goalDropdown.adapter = goalAdapter
+        binding.goalDropdown.onItemSelectedListener = this
 
         return root
     }
@@ -217,15 +181,15 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
     override fun onItemSelected(parent: AdapterView<*>?, v: View?, position: Int, id: Long) {
         when(parent!!.id){
             R.id.algoDropdown ->{
-                println("Chosen Algo is " + position.toString())
+                println("Chosen Algo is $position")
                 algoType = position
             }
             R.id.startDropdown ->{
-                println("Start is " + position.toString())
+                println("Start is $position")
                 startIdx = position
             }
             R.id.goalDropdown ->{
-                println("goal is " + position.toString())
+                println("goal is $position")
                 goalIdx = position
             }
         }
