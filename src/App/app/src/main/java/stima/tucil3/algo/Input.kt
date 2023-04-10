@@ -27,6 +27,14 @@ class Input {
         }
     }
 
+    fun reset(){
+        adjacencyMatrix.clear()
+        coordinates.clear()
+        names.clear()
+        euclideanDistToGoal.clear()
+        heuristic.clear()
+    }
+
     fun readCoor(coorContent: String){
         val reader = Scanner(coorContent)
 

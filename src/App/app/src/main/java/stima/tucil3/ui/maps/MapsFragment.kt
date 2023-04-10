@@ -1,6 +1,7 @@
 package stima.tucil3.ui.maps
 
 import android.content.Intent
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,19 +11,22 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
-import stima.tucil3.databinding.FragmentMapsBinding
-import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.*
 import stima.tucil3.R
 import stima.tucil3.algo.Algo
 import stima.tucil3.algo.Input
-import stima.tucil3.ui.file.FileViewModel
+import stima.tucil3.algo.MapsFetch
+import stima.tucil3.algo.MapsUtil
+import stima.tucil3.databinding.FragmentMapsBinding
 import java.io.InputStream
-import java.lang.Exception
+
 
 class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedListener {
-    //TODO: Implement
+    private var map: GoogleMap? = null
 
     private var _binding: FragmentMapsBinding? = null
     private val binding get() = _binding!!
@@ -34,6 +38,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
     private var goalIdx: Int = 0
     private val paths = arrayOf("UCS", "A*")
     private val runner: Algo = Algo()
+
+    private val markerList: MutableList<Marker> = ArrayList()
+    private val lineList: MutableList<Polyline> = ArrayList()
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -51,15 +58,20 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                     binding.textMatrixname.text = fileContents
                 }
                 catch (e: Exception){
-                    binding.textCoorname.text = e.toString()
+                    binding.textMatrixname.text = e.toString()
                 }
             }
         }
         else if (requestCode == 1 && resultCode == AppCompatActivity.RESULT_CANCELED){
+            selectedMatrix = null
             binding.textMatrixname.text = resources.getString(R.string.unchosen_label)
         }
 
         if (requestCode == 2 && resultCode == AppCompatActivity.RESULT_OK) {
+            map!!.clear()
+            markerList.clear()
+            lineList.clear()
+
             selectedCoor = data?.data // The URI with the location of the file
             selectedCoor?.let { uri ->
                 val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
@@ -78,6 +90,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                     val goalAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, validator.names)
                     goalAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
                     binding.goalDropdown.adapter = goalAdapter
+
+                    for(i in 0 until validator.names.size){
+                        val coor = validator.coordinates[i]
+                        val place = MarkerOptions().position(LatLng(coor.first, coor.second)).title(validator.names[i]).alpha(0.5F)
+                        markerList.add(map!!.addMarker(place)!!)
+                    }
+
+                    map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(validator.coordinates[0].first, validator.coordinates[0].second), 16.5F))
                 }
                 catch (e: Exception){
                     binding.textCoorname.text = e.toString()
@@ -93,6 +113,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
             }
         }
         else if (requestCode == 2 && resultCode == AppCompatActivity.RESULT_CANCELED){
+            map!!.clear()
+            markerList.clear()
+            lineList.clear()
+
             selectedCoor = null
             binding.textCoorname.text = resources.getString(R.string.unchosen_label)
 
@@ -113,10 +137,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        //file
-        val fileViewModel =
-            ViewModelProvider(this)[FileViewModel::class.java]
-
         _binding = FragmentMapsBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -150,30 +170,52 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
         }
 
         binding.buttonRun.setOnClickListener{
-            if(selectedMatrix != null && selectedCoor != null){
-                var matrixContents: String? = null
-                var coorContents: String? = null
-                selectedMatrix?.let { uri ->
-                    val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
-                    matrixContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
-                }
-                selectedCoor?.let { uri ->
-                    val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
-                    coorContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
-                }
-                runner.runAlgo(matrixContents!!, coorContents!!, algoType, startIdx, goalIdx)
-
-                var result = ""
-
-                for(i in runner.path){
-                    result += runner.data.names[i]
-                    if(i != runner.path.last()){
-                        result += ", "
+            for(line in lineList) line.remove()
+            lineList.clear()
+            try{
+                if(selectedMatrix != null && selectedCoor != null){
+                    var matrixContents: String? = null
+                    var coorContents: String? = null
+                    selectedMatrix?.let { uri ->
+                        val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
+                        matrixContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
                     }
-                }
+                    selectedCoor?.let { uri ->
+                        val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
+                        coorContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
+                    }
+                    runner.runAlgo(matrixContents!!, coorContents!!, algoType, startIdx, goalIdx)
 
-                binding.textResult.text = result
-                binding.textDistance.text = runner.distanceD.toString()
+                    // P.S ini butuh akun billing, for now pake vektor aja dulu :(
+                    //println("Tasking start!")
+                    //MapsFetch(this@MapsFragment).execute(MapsUtil().getUrl(place1.position, place2.position))
+
+                    //oke ini vektor
+                    var latLngList = ArrayList<LatLng>()
+
+                    var result = ""
+
+                    for(i in runner.path){
+                        latLngList.add(LatLng(runner.data.coordinates[i].first, runner.data.coordinates[i].second))
+
+                        result += runner.data.names[i]
+                        if(i != runner.path.last()){
+                            result += "\n"
+                        }
+                    }
+
+                    lineList.add(map!!.addPolyline(PolylineOptions().addAll(latLngList).color(Color.GREEN)))
+
+                    binding.textResult.text = result
+                    binding.textDistance.text = runner.distanceD.toString()
+                }
+                else{
+                    binding.textResult.text = resources.getString(R.string.invalid_label)
+                    binding.textDistance.text = resources.getString(R.string.invalid_label)
+                }
+            } catch (e: Exception){
+                binding.textResult.text = resources.getString(R.string.invalid_label)
+                binding.textDistance.text = resources.getString(R.string.invalid_label)
             }
         }
 
@@ -195,20 +237,49 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
         return root
     }
 
-    override fun onMapReady(p0: GoogleMap) {}
+    fun onTaskDone(vararg values: Any){
+        println("Task Done!")
+        map!!.addPolyline(values[0] as PolylineOptions)
+    }
+
+    override fun onMapReady(p0: GoogleMap) {
+        map = p0
+
+        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(-6.890530517416122, 107.60979931154648), 16.5F))
+    }
 
     override fun onItemSelected(parent: AdapterView<*>?, v: View?, position: Int, id: Long) {
         when(parent!!.id){
             R.id.algoDropdown ->{
-                println("Chosen Algo is " + position.toString())
+                //println("Chosen Algo is $position")
                 algoType = position
             }
             R.id.startDropdown ->{
-                println("Start is " + position.toString())
+                for(line in lineList) line.remove()
+                lineList.clear()
+                //println("Start is $position")
+                if(markerList.isNotEmpty()){
+                    val mark: Marker = markerList[position]
+                    if(goalIdx != startIdx) markerList[startIdx].alpha = 0.5F
+                    mark.showInfoWindow()
+                    mark.alpha = 1F
+
+                    map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                }
                 startIdx = position
             }
             R.id.goalDropdown ->{
-                println("goal is " + position.toString())
+                for(line in lineList) line.remove()
+                lineList.clear()
+                //println("goal is $position")
+                if(markerList.isNotEmpty()){
+                    val mark: Marker = markerList[position]
+                    if(goalIdx != startIdx) markerList[goalIdx].alpha = 0.5F
+                    mark.showInfoWindow()
+                    mark.alpha = 1F
+
+                    map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                }
                 goalIdx = position
             }
         }

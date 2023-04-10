@@ -51,6 +51,7 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
             }
         }
         else if (requestCode == 1 && resultCode == AppCompatActivity.RESULT_CANCELED){
+            selectedMatrix = null
             binding.textMatrixname.text = resources.getString(R.string.unchosen_label)
         }
 
@@ -151,12 +152,16 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                 for(i in runner.path){
                     result += runner.data.names[i]
                     if(i != runner.path.last()){
-                        result += ", "
+                        result += "\n"
                     }
                 }
 
                 binding.textResult.text = result
                 binding.textDistance.text = runner.distanceD.toString()
+            }
+            else{
+                binding.textResult.text = resources.getString(R.string.invalid_label)
+                binding.textDistance.text = resources.getString(R.string.invalid_label)
             }
         }
 

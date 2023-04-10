@@ -11,8 +11,11 @@
     <string name="unchosen_label">"No file chosen"</string>
     <string name="run_label">"Run"</string>
     <string name="notrun_label">"Not yet run"</string>
+    <string name="invalid_label">"Invalid"</string>
 
     <string name="result_label">"Result     :"</string>
     <string name="distance_label">"Distance :"</string>
+
+    <string name="maps_key">"AIzaSyDVMrOzvvAszmFXVHZqf_dfLs-wfwTDz5M"</string>
 
 </resources>

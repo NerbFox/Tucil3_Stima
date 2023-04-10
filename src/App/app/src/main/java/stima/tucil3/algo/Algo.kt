@@ -20,6 +20,7 @@ class Algo {
 
     private fun reset(){
         prioQueue.clear()
+        data.reset()
         path = ArrayList()
         distance = 0
         distanceD = 0.0
@@ -42,7 +43,7 @@ class Algo {
 
         while (prioQueue.peek()?.first?.last()?.equals(goal) == false){
             val temp = prioQueue.poll()
-            println((temp?.first ?: 0).toString() + " " + (temp?.second ?: 0))
+            //println((temp?.first ?: 0).toString() + " " + (temp?.second ?: 0))
             val tempInt = temp!!.first.last()
 
             for (i in 0 until n){
@@ -64,7 +65,7 @@ class Algo {
                         fn = gn + hn[i]
                     }
 
-                    println("fn = $fn")
+                    //println("fn = $fn")
                     prioQueue.add(Pair<List<Int>, Double>(tempList, fn))
                 }
             }
@@ -93,18 +94,18 @@ class Algo {
         initialize(reader)
 
         if(algoType == 1){
-            println("A*")
+            //println("A*")
             templateFunctionPath(1)
         } else{
-            println("UCS")
+            //println("UCS")
             templateFunctionPath(2)
         }
 
-        println("Hasil:")
+        //println("Hasil:")
         for (i in path.indices) {
             print(path[i].toString() + " ")
         }
-        println()
-        println("Jarak: $distanceD")
+        //println()
+        //println("Jarak: $distanceD")
     }
 }
