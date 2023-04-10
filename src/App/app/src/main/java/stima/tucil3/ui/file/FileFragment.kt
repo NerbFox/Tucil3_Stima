@@ -21,8 +21,8 @@ import java.lang.Exception
 class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
     private var _binding: FragmentFileBinding? = null
-
     private val binding get() = _binding!!
+
     private var selectedMatrix: Uri? = null
     private var selectedCoor: Uri? = null
     private var algoType: Int = 0

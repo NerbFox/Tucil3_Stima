@@ -4,165 +4,178 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginBottom="60dp"
     tools:context=".ui.file.FileFragment">
 
-    <TextView
-        android:id="@+id/text_matrixname"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_getmatrix"
-        app:layout_constraintVertical_bias="0.0" />
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/text_coorname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button_getcoordinates"
-        app:layout_constraintVertical_bias="0.0" />
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <Button
-        android:id="@+id/button_getmatrix"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="@string/choosematrix_label"
-        app:backgroundTint="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.028"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/button_getmatrix"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="@string/choosematrix_label"
+                app:backgroundTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.028"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/button_getcoordinates"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="@string/choosecoor_label"
-        app:backgroundTint="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.034"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_matrixname"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/text_matrixname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_getmatrix"
+                app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/text_goal_label"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="@string/goal_label"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.022"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_coorname"
-        app:layout_constraintVertical_bias="0.002" />
+            <Button
+                android:id="@+id/button_getcoordinates"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="@string/choosecoor_label"
+                app:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.034"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_matrixname"
+                app:layout_constraintVertical_bias="0.0" />
 
-    <Spinner
-        android:id="@+id/algoDropdown"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="30dp"
-        android:textAlignment="textEnd"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/text_algorithm_label"
-        app:layout_constraintTop_toBottomOf="@+id/goalDropdown"
-        app:layout_constraintVertical_bias="0.03" />
+            <TextView
+                android:id="@+id/text_coorname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/button_getcoordinates"
+                app:layout_constraintVertical_bias="0.0" />
 
-    <Spinner
-        android:id="@+id/startDropdown"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="41dp"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.009"
-        app:layout_constraintStart_toEndOf="@+id/text_goal_label"
-        app:layout_constraintTop_toBottomOf="@+id/text_coorname"
-        app:layout_constraintVertical_bias="0.004" />
+            <TextView
+                android:id="@+id/text_goal_label"
+                android:layout_width="58dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="@string/goal_label"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.022"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_coorname"
+                app:layout_constraintVertical_bias="0.002" />
 
-    <Button
-        android:id="@+id/button_run"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/run_label"
-        android:textColor="@color/white"
-        app:backgroundTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.024"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_algorithm_label"
-        app:layout_constraintVertical_bias="0.0" />
+            <Spinner
+                android:id="@+id/startDropdown"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="47dp"
+                android:layout_marginTop="41dp"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.009"
+                app:layout_constraintStart_toEndOf="@+id/text_goal_label"
+                app:layout_constraintTop_toBottomOf="@+id/text_coorname"
+                app:layout_constraintVertical_bias="0.004" />
 
-    <Spinner
-        android:id="@+id/goalDropdown"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="47dp"
-        android:layout_marginTop="2dp"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/text_start_label"
-        app:layout_constraintTop_toBottomOf="@+id/startDropdown"
-        app:layout_constraintVertical_bias="0.007" />
+            <TextView
+                android:id="@+id/text_start_label"
+                android:layout_width="58dp"
+                android:layout_height="wrap_content"
+                android:text="@string/start_label"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.025"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_goal_label"
+                app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/text_algorithm_label"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/algorithm_label"
-        android:textAlignment="textStart"
-        android:layout_marginTop="38dp"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.028"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_start_label"
-        app:layout_constraintVertical_bias="0.0" />
+            <Spinner
+                android:id="@+id/goalDropdown"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="47dp"
+                android:layout_marginTop="2dp"
+                android:textAlignment="textStart"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/text_start_label"
+                app:layout_constraintTop_toBottomOf="@+id/startDropdown"
+                app:layout_constraintVertical_bias="0.007" />
 
-    <TextView
-        android:id="@+id/text_start_label"
-        android:layout_width="58dp"
-        android:layout_height="wrap_content"
-        android:text="@string/start_label"
-        android:textAlignment="textStart"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.025"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/text_goal_label"
-        app:layout_constraintVertical_bias="0.0" />
+            <TextView
+                android:id="@+id/text_algorithm_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/algorithm_label"
+                android:textAlignment="textStart"
+                android:layout_marginTop="38dp"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.028"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_start_label"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <Spinner
+                android:id="@+id/algoDropdown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="38dp"
+                android:textAlignment="textEnd"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@+id/text_algorithm_label"
+                app:layout_constraintTop_toBottomOf="@+id/goalDropdown"
+                app:layout_constraintVertical_bias="0.157" />
+
+            <Button
+                android:id="@+id/button_run"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/run_label"
+                android:textColor="@color/white"
+                app:backgroundTint="@color/black"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.024"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/text_algorithm_label"
+                app:layout_constraintVertical_bias="0.0" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
