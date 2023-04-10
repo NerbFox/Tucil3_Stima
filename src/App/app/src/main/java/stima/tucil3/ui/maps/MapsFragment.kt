@@ -39,6 +39,9 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
     private val paths = arrayOf("UCS", "A*")
     private val runner: Algo = Algo()
 
+
+    private var lastPick: Int = 0
+
     private val markerList: MutableList<Marker> = ArrayList()
     private val lineList: MutableList<Polyline> = ArrayList()
 
@@ -98,6 +101,12 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                     }
 
                     map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(validator.coordinates[0].first, validator.coordinates[0].second), 16.5F))
+
+                    map!!.setOnMarkerClickListener { marker ->
+                        if(lastPick == 0) binding.startDropdown.setSelection(markerList.indexOf(marker))
+                        else binding.goalDropdown.setSelection(markerList.indexOf(marker))
+                        true
+                    }
                 }
                 catch (e: Exception){
                     binding.textCoorname.text = e.toString()
@@ -143,8 +152,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
 
 
         //maps
-        val mapsViewModel =
-            ViewModelProvider(this)[MapsViewModel::class.java]
         val mapFragment = childFragmentManager.findFragmentById(R.id.map_fragment) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
@@ -191,7 +198,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                     //MapsFetch(this@MapsFragment).execute(MapsUtil().getUrl(place1.position, place2.position))
 
                     //oke ini vektor
-                    var latLngList = ArrayList<LatLng>()
+                    val latLngList = ArrayList<LatLng>()
 
                     var result = ""
 
@@ -251,13 +258,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
     override fun onItemSelected(parent: AdapterView<*>?, v: View?, position: Int, id: Long) {
         when(parent!!.id){
             R.id.algoDropdown ->{
-                //println("Chosen Algo is $position")
+                println("Chosen Algo is $position")
                 algoType = position
             }
             R.id.startDropdown ->{
+                lastPick = 0
                 for(line in lineList) line.remove()
                 lineList.clear()
-                //println("Start is $position")
+                println("Start is $position")
                 if(markerList.isNotEmpty()){
                     val mark: Marker = markerList[position]
                     if(goalIdx != startIdx) markerList[startIdx].alpha = 0.5F
@@ -269,9 +277,10 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                 startIdx = position
             }
             R.id.goalDropdown ->{
+                lastPick = 1
                 for(line in lineList) line.remove()
                 lineList.clear()
-                //println("goal is $position")
+                println("goal is $position")
                 if(markerList.isNotEmpty()){
                     val mark: Marker = markerList[position]
                     if(goalIdx != startIdx) markerList[goalIdx].alpha = 0.5F

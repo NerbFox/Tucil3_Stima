@@ -46,7 +46,7 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     binding.textMatrixname.text = fileContents
                 }
                 catch (e: Exception){
-                    binding.textCoorname.text = e.toString()
+                    binding.textMatrixname.text = e.toString()
                 }
             }
         }
