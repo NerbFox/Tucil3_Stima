@@ -116,7 +116,8 @@ public class algo {
         //             tempList.add(0, i);
 
         // instead of peek first element (must remove first element, add to last element), peek last element (no need to remove and add the first element)
-
+        // sebelumnya kita harus mengambil elemen pertama dari list, kemudian menambahkan elemen pertama dari list ke elemen terakhir dari list
+        // dengan cara ini, kita hanya perlu mengambil elemen terakhir dari list 
         // selama indeks terakhir tidak sama dengan goal
         while (! PrioQueue.peek().getItem1().get(PrioQueue.peek().getItem1().size() - 1).equals(goal)) { 
             // ambil elemen pertama dari queue
@@ -292,3 +293,13 @@ public class algo {
     // }
     // change yg ucs to Double aja biar bisa dijadikan template
     // make A* and UCS a template method 
+
+// masukkan start node ke queue
+// ambil elemen pertama dari queue
+// selama elemen pertama dari queue bukan goal
+// add semua node adjacent dari node pertama queue ke dalam queue 
+// salin isi dari queue pertama ke list baru dan tambahkan node yang baru di add ke list baru
+// hitung nilai f(n) tergantung mode yang dipilih
+// UCS -> fn = gn (gn = jarak dari start ke n)
+// A* -> fn = gn + hn (hn = jarak dari n ke goal, untuk gn pada A* kurangi dengan hn node parent)
+// tambahkan list baru ke queue dengan nilai f(n) sebagai prioritas
