@@ -15,7 +15,7 @@ import stima.tucil3.R
 import stima.tucil3.algo.Algo
 import stima.tucil3.algo.Input
 import java.io.InputStream
-import java.lang.Exception
+import kotlin.Exception
 
 class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
 
@@ -46,7 +46,7 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     binding.textMatrixname.text = fileContents
                 }
                 catch (e: Exception){
-                    binding.textMatrixname.text = e.toString()
+                    binding.textMatrixname.text = e.message
                 }
             }
         }
@@ -76,7 +76,7 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
                     binding.goalDropdown.adapter = goalAdapter
                 }
                 catch (e: Exception){
-                    binding.textCoorname.text = e.toString()
+                    binding.textCoorname.text = e.message
 
                     val startAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("No valid file chosen"))
                     startAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -134,34 +134,41 @@ class FileFragment : Fragment(), AdapterView.OnItemSelectedListener {
         }
 
         binding.buttonRun.setOnClickListener{
-            if(selectedMatrix != null && selectedCoor != null){
-                var matrixContents: String? = null
-                var coorContents: String? = null
-                selectedMatrix?.let { uri ->
-                    val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
-                    matrixContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
-                }
-                selectedCoor?.let { uri ->
-                    val inputStream: InputStream? = requireContext().contentResolver.openInputStream(uri)
-                    coorContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
-                }
-                runner.runAlgo(matrixContents!!, coorContents!!, algoType, startIdx, goalIdx)
-
-                var result = ""
-
-                for(i in runner.path){
-                    result += runner.data.names[i]
-                    if(i != runner.path.last()){
-                        result += "\n"
+            try {
+                if (selectedMatrix != null && selectedCoor != null) {
+                    var matrixContents: String? = null
+                    var coorContents: String? = null
+                    selectedMatrix?.let { uri ->
+                        val inputStream: InputStream? =
+                            requireContext().contentResolver.openInputStream(uri)
+                        matrixContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
                     }
-                }
+                    selectedCoor?.let { uri ->
+                        val inputStream: InputStream? =
+                            requireContext().contentResolver.openInputStream(uri)
+                        coorContents = inputStream?.readBytes()?.toString(Charsets.UTF_8) ?: ""
+                    }
+                    runner.runAlgo(matrixContents!!, coorContents!!, algoType, startIdx, goalIdx)
 
-                binding.textResult.text = result
-                binding.textDistance.text = runner.distanceD.toString()
-            }
-            else{
-                binding.textResult.text = resources.getString(R.string.invalid_label)
-                binding.textDistance.text = resources.getString(R.string.invalid_label)
+                    var result = ""
+
+                    for (i in runner.path) {
+                        result += runner.data.names[i]
+                        if (i != runner.path.last()) {
+                            result += "\n"
+                        }
+                    }
+
+                    binding.textResult.text = result
+                    binding.textDistance.text = runner.distanceD.toString()
+                }
+                else{
+                    binding.textResult.text = resources.getString(R.string.invalid_label) + ", File is null"
+                    binding.textDistance.text = resources.getString(R.string.invalid_label) + ", File is null"
+                }
+            } catch (e: Exception){
+                binding.textResult.text = resources.getString(R.string.invalid_label) + ", " + e.message
+                binding.textDistance.text = resources.getString(R.string.invalid_label) + ", " + e.message
             }
         }
 

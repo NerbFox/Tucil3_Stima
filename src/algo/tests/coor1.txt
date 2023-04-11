@@ -1,5 +1,0 @@
-1.2 3.5 Jalan1
-4.2 2.5 Jalan2
-5.2 3.5 Jalan3
-6.2 4.5 Jalan4
-3.2 3.5 Jalan5

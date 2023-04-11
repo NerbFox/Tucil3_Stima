@@ -1,5 +1,6 @@
 *.o
 *.class
+src/algo
 src/App/build/
 src/App/app/build
 !.gitignore

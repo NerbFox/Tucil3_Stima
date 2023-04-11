@@ -1,6 +1,8 @@
 package stima.tucil3.algo
 
 import java.util.*
+import kotlin.math.pow
+import kotlin.math.sqrt
 
 class Input {
     var start: Int = 0
@@ -17,8 +19,8 @@ class Input {
             val data = reader.nextLine()
             val dataSplit = data.split(" ")
             val row = ArrayList<Int>()
-            for (i in 0 until dataSplit.size) {
-                row.add(dataSplit.get(i).toInt())
+            for (i in dataSplit.indices) {
+                row.add(dataSplit[i].toInt())
             }
             adjacencyMatrix.add(row)
         }
@@ -40,7 +42,7 @@ class Input {
             if(dataSplit.size != 3){
                 throw Exception("Column count in coordinate file is invalid")
             }
-            coordinates.add(Pair<Double, Double>(dataSplit[0].toDouble(), dataSplit[1].toDouble()))
+            coordinates.add(Pair(dataSplit[0].toDouble(), dataSplit[1].toDouble()))
             names.add(dataSplit[2])
         }
         reader.close()
@@ -48,26 +50,26 @@ class Input {
 
     fun readDist(){
         val goalX = coordinates[goal].first
-        val goalY = coordinates.get(goal).second
+        val goalY = coordinates[goal].second
 
         for (i in 0 until coordinates.size) {
-            val x = coordinates.get(i).first
-            val y = coordinates.get(i).second
+            val x = coordinates[i].first
+            val y = coordinates[i].second
             euclideanDistToGoal.add(euclideanDistance(x, y, goalX, goalY))
         }
     }
 
-    fun euclideanDistance(x1: Double, y1: Double, x2: Double, y2: Double): Double{
-        return Math.sqrt(Math.pow(x1 - x2, 2.0) + Math.pow(y1 - y2, 2.0))
+    private fun euclideanDistance(x1: Double, y1: Double, x2: Double, y2: Double): Double{
+        return sqrt((x1 - x2).pow(2.0) + (y1 - y2).pow(2.0))
     }
-    fun lattitudeToMeters(lattitude: Double): Double {
+    private fun lattitudeToMeters(lattitude: Double): Double {
 //        val EarthRadius = 6371000.0
 //        val lat = Math.toRadians(lattitude!!)
 //        return EarthRadius * Math.log(Math.tan(Math.PI / 4 + lat / 2))
         return lattitude * 111319
     }
 
-    fun longitudeToMeters(longitude: Double): Double {
+    private fun longitudeToMeters(longitude: Double): Double {
 //        val EarthRadius = 6371000.0
 //        return Math.toRadians(longitude!!) * EarthRadius
         return longitude * 111319

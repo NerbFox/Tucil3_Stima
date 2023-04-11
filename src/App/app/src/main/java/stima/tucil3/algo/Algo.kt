@@ -27,6 +27,33 @@ class Algo {
         distanceD = 0.0
     }
 
+    private fun checkPath(): Boolean{
+        val nNodes: Int = data.adjacencyMatrix[0].size
+        val visited = BooleanArray(nNodes)
+        val q: Queue<Int> = LinkedList()
+        // initialize visited array
+        // initialize visited array
+        for (i in 0 until nNodes) {
+            visited[i] = false
+        }
+        visited[data.start] = true
+        q.add(data.start)
+        while (!q.isEmpty()) {
+            val u = q.poll()
+            // check if goal is reachable
+            if (u == data.goal) {
+                return true
+            }
+            for (i in 0 until nNodes) {
+                if (data.adjacencyMatrix[u!!][i] != 0 && !visited[i]) {
+                    visited[i] = true
+                    q.add(i)
+                }
+            }
+        }
+        return false
+    }
+
     private fun templateFunctionPath(mode: Int){
         val n = data.adjacencyMatrix[0].size
         val start = data.start
@@ -48,7 +75,7 @@ class Algo {
             val tempInt = temp!!.first.last()
 
             for (i in 0 until n){
-                if (data.adjacencyMatrix[tempInt][i] != 0){
+                if (data.adjacencyMatrix[tempInt][i] != 0 && i != tempInt){
                     val cost = data.adjacencyMatrix[tempInt][i].toDouble()
                     val tempList = ArrayList<Int>()
 
@@ -93,6 +120,8 @@ class Algo {
         reader.readDist()
 
         initialize(reader)
+
+        if (!checkPath()) throw Exception("No path found")
 
         if(algoType == 1){
             println("A*")

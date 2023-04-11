@@ -10,7 +10,6 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,8 +18,6 @@ import com.google.android.gms.maps.model.*
 import stima.tucil3.R
 import stima.tucil3.algo.Algo
 import stima.tucil3.algo.Input
-import stima.tucil3.algo.MapsFetch
-import stima.tucil3.algo.MapsUtil
 import stima.tucil3.databinding.FragmentMapsBinding
 import java.io.InputStream
 
@@ -36,7 +33,6 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
     private var algoType: Int = 0
     private var startIdx: Int = 0
     private var goalIdx: Int = 0
-    private val paths = arrayOf("UCS", "A*")
     private val runner: Algo = Algo()
 
 
@@ -61,7 +57,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                     binding.textMatrixname.text = fileContents
                 }
                 catch (e: Exception){
-                    binding.textMatrixname.text = e.toString()
+                    binding.textMatrixname.text = e.message
                 }
             }
         }
@@ -103,13 +99,14 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                     map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(validator.coordinates[0].first, validator.coordinates[0].second), 16.5F))
 
                     map!!.setOnMarkerClickListener { marker ->
+                        println(lastPick)
                         if(lastPick == 0) binding.startDropdown.setSelection(markerList.indexOf(marker))
                         else binding.goalDropdown.setSelection(markerList.indexOf(marker))
                         true
                     }
                 }
                 catch (e: Exception){
-                    binding.textCoorname.text = e.toString()
+                    binding.textCoorname.text = e.message
 
                     val startAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("No valid file chosen"))
                     startAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -217,16 +214,16 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                     binding.textDistance.text = runner.distanceD.toString()
                 }
                 else{
-                    binding.textResult.text = resources.getString(R.string.invalid_label)
-                    binding.textDistance.text = resources.getString(R.string.invalid_label)
+                    binding.textResult.text = resources.getString(R.string.invalid_label) + ", File is null"
+                    binding.textDistance.text = resources.getString(R.string.invalid_label) + ", File is null"
                 }
             } catch (e: Exception){
-                binding.textResult.text = resources.getString(R.string.invalid_label)
-                binding.textDistance.text = resources.getString(R.string.invalid_label)
+                binding.textResult.text = resources.getString(R.string.invalid_label) + ", " + e.message
+                binding.textDistance.text = resources.getString(R.string.invalid_label) + ", " + e.message
             }
         }
 
-        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, paths)
+        val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, arrayOf("UCS", "A*"))
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         binding.algoDropdown.adapter = adapter
         binding.algoDropdown.onItemSelectedListener = this
@@ -266,30 +263,40 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                 for(line in lineList) line.remove()
                 lineList.clear()
                 println("Start is $position")
-                if(markerList.isNotEmpty()){
-                    val mark: Marker = markerList[position]
-                    if(goalIdx != startIdx) markerList[startIdx].alpha = 0.5F
-                    mark.showInfoWindow()
-                    mark.alpha = 1F
+                try {
+                    if(markerList.isNotEmpty()){
+                        val mark: Marker = markerList[position]
+                        if(goalIdx != startIdx) markerList[startIdx].alpha = 0.5F
+                        mark.showInfoWindow()
+                        mark.alpha = 1F
 
-                    map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                    }
+                } catch (e: Exception){
+                    println(e.message)
+                } finally {
+                    startIdx = position
                 }
-                startIdx = position
             }
             R.id.goalDropdown ->{
                 lastPick = 1
                 for(line in lineList) line.remove()
                 lineList.clear()
                 println("goal is $position")
-                if(markerList.isNotEmpty()){
-                    val mark: Marker = markerList[position]
-                    if(goalIdx != startIdx) markerList[goalIdx].alpha = 0.5F
-                    mark.showInfoWindow()
-                    mark.alpha = 1F
+                try {
+                    if(markerList.isNotEmpty()){
+                        val mark: Marker = markerList[position]
+                        if(goalIdx != startIdx) markerList[goalIdx].alpha = 0.5F
+                        mark.showInfoWindow()
+                        mark.alpha = 1F
 
-                    map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                    }
+                } catch (e: Exception){
+                    println(e.message)
+                } finally {
+                    goalIdx = position
                 }
-                goalIdx = position
             }
         }
     }
