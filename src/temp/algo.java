@@ -130,7 +130,7 @@ public class algo {
             Integer tempInt = temp.getItem1().get(temp.getItem1().size() - 1);
             // add semua node adjacent ke queue 
             for (int i = 0; i < n; i++) {
-                if (! data.getAdjacencyMatrix().get(tempInt).get(i).equals(0)) {
+                if (! data.getAdjacencyMatrix().get(tempInt).get(i).equals(0) && i != tempInt) {
                     Double cost = data.getAdjacencyMatrix().get(tempInt).get(i).doubleValue();
                     List<Integer> tempList = new ArrayList<Integer>();
                     // copy temp.getItem1() to tempList

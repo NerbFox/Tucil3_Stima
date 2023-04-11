@@ -21,6 +21,8 @@ public class Main {
         data.setter();
         // pilihan heuristik
         if (pilihan.equals("2")) {
+            // hitung waktu dalam milisecond
+            long startTime = System.currentTimeMillis();
             // algoritma A* dengan heuristik Euclidean
             System.out.println("A*");
             var algo = new algo(data);
@@ -33,6 +35,10 @@ public class Main {
             }
             System.out.println();
             System.out.println("Jarak: " + algo.getDistanceD());
+            // print waktu eksekusi
+            long endTime = System.currentTimeMillis();
+            long timeElapsed = endTime - startTime;
+            System.out.println("Waktu eksekusi: " + timeElapsed + " ms");
 
             // System.out.println("Pilih heuristik yang ingin digunakan:");
             // System.out.println("1. Manhattan");
@@ -57,6 +63,8 @@ public class Main {
             // }
         } else {
             // algoritma UCS
+            // hitung waktu dalam milisecond
+            long startTime = System.currentTimeMillis();
             System.out.println("UCS");
             var algo = new algo(data);
             // algo.temp();
@@ -69,6 +77,10 @@ public class Main {
             }
             System.out.println();
             System.out.println("Jarak: " + algo.getDistanceD());
+            // print waktu eksekusi
+            long endTime = System.currentTimeMillis();
+            long timeElapsed = endTime - startTime;
+            System.out.println("Waktu eksekusi: " + timeElapsed + " ms");
         }
         scanner.close();
     }

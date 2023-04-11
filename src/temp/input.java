@@ -237,6 +237,8 @@ class input {
             }
         }
 
+
+        // ------------------------------------------------------------------- //
         // selama start dan goal tidak valid, minta input ulang
         while(!pathValid){
             System.out.println("Tidak ada jalur dari simpul awal ke simpul tujuan");
@@ -294,7 +296,7 @@ class input {
                 }
             }
         }
-        
+        // ------------------------------------------------------------------- //
         
         System.out.println("Start dan goal valid");
         // // enter untuk lanjut
