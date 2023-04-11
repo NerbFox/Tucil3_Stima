@@ -1,5 +1,6 @@
 import java.util.*;
 import java.io.*;
+import java.lang.Math;
 
 /* 
  Algoritma UCS (Uniform cost search) dan A* (atau A star) dapat digunakan untuk menentukan 
@@ -76,12 +77,12 @@ class input {
         // Membaca file adjacency matrix
         System.out.print("Masukkan nama file adjacency matrix: ");
         String filename = inp.nextLine();
-        File file = new File("../tests/" + filename + ".txt");
+        File file = new File("../../tests/" + filename + ".txt");
         while (!file.exists()){
             System.out.println("File " + filename + " tidak ditemukan");
             System.out.print("Masukkan nama file adjacency matrix: ");
             filename = inp.nextLine();
-            file = new File("../tests/" + filename + ".txt");
+            file = new File("../../tests/" + filename + ".txt");
         }
         
         // Membaca isi file dan memasukkannya ke dalam adjacency matrix
@@ -113,7 +114,7 @@ class input {
         System.out.print("Masukkan nama file koordinat: ");
         filename = inp.nextLine();
         // Membaca file dari folder tests
-        file = new File("../tests/" + filename + ".txt");
+        file = new File("../../tests/" + filename + ".txt");
         // contoh isi file  
         // 1.2 3.4 jalan1
         // 2.3 4.5 jalan2
@@ -122,7 +123,7 @@ class input {
             System.out.println("File " + filename + " tidak ditemukan");
             System.out.print("Masukkan nama file koordinat: ");
             filename = inp.nextLine();
-            file = new File("../tests/" + filename + ".txt");
+            file = new File("../../tests/" + filename + ".txt");
         }
         isValidFile = false;
         while (!isValidFile){
@@ -137,6 +138,7 @@ class input {
                         colomnOutOfBound = true;
                         break;
                     }
+                    // change lattitude and longitude to meters and add to coordinates
                     coordinates.add(new Tuple<Double, Double>(Double.parseDouble(dataSplit[0]), Double.parseDouble(dataSplit[1])));
                     names.add(dataSplit[2]);
                 }
@@ -154,13 +156,13 @@ class input {
                 if (!isValidFile){
                     System.out.print("Masukkan nama file koordinat: ");
                     filename = inp.nextLine();
-                    file = new File("../tests/" + filename + ".txt");
+                    file = new File("../../tests/" + filename + ".txt");
                 }
                 while (!file.exists()){
                     System.out.println("File " + filename + " tidak ditemukan");
                     System.out.print("Masukkan nama file koordinat: ");
                     filename = inp.nextLine();
-                    file = new File("../tests/" + filename + ".txt");
+                    file = new File("../../tests/" + filename + ".txt");
                 }
             } catch (IOException e) {
                 System.out.println("An error occurred while reading the file.");
@@ -245,5 +247,14 @@ class input {
     }
     public Double euclideanDistance(Double x1, Double y1, Double x2, Double y2){
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
+    }
+    public Double lattitudeToMeters(Double lattitude){
+        Double EarthRadius = 6371000.0;
+        Double lat = Math.toRadians(lattitude);
+        return EarthRadius * Math.log(Math.tan(Math.PI / 4 + lat / 2));
+    }
+    public Double longitudeToMeters(Double longitude){
+        Double EarthRadius = 6371000.0;
+        return Math.toRadians(longitude) * EarthRadius;
     }
 }
