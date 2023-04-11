@@ -14,9 +14,12 @@ public class algo {
     private Double distanceD;
 
     // constructor
+    // 0 10 9 7 8 13 14 15 20 21 23 
     public algo(input d) {
         path = new ArrayList<Integer>();
+        d.changeEuclideanToMeters();
         data = d;
+        // change 
         PrioQueue = new PriorityQueue<>(new Comparator<Tuple<List<Integer>, Double>>() {
             @Override
             public int compare(Tuple<List<Integer>, Double> t1, Tuple<List<Integer>, Double> t2) {

@@ -12,6 +12,7 @@ class Algo {
 
     private fun initialize(d: Input){
         path = ArrayList()
+        d.changeEuclideanToMeters()
         data = d
         prioQueue = PriorityQueue<Pair<List<Int>, Double>>{
             t1, t2 -> t1.second.compareTo(t2.second)

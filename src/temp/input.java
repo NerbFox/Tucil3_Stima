@@ -217,9 +217,9 @@ class input {
         Double goalY = coordinates.get(goal).getItem2();
         Double x, y;
         for (int i = 0; i < coordinates.size(); i++){
-            x = coordinates.get(i).getItem1();
-            y = coordinates.get(i).getItem2();
-            euclideanDistToGoal.add(Math.sqrt(Math.pow(goalX - x, 2) + Math.pow(goalY - y, 2)));
+            x = coordinates.get(i).getItem1(); // lattitude
+            y = coordinates.get(i).getItem2(); // longitude
+            euclideanDistToGoal.add(euclideanDistance(x, y, goalX, goalY));
         }
 
         // print adjacency matrix
@@ -256,5 +256,22 @@ class input {
     public Double longitudeToMeters(Double longitude){
         Double EarthRadius = 6371000.0;
         return Math.toRadians(longitude) * EarthRadius;
+    }
+    // change euclidean distance to meters
+    public void changeEuclideanToMeters(){
+        // clear euclideanDistToGoal
+        euclideanDistToGoal.clear();
+        Double goalX = coordinates.get(goal).getItem1();
+        Double goalY = coordinates.get(goal).getItem2();
+        goalX = lattitudeToMeters(goalX);
+        
+        Double x, y;
+        for (int i = 0; i < coordinates.size(); i++){
+            x = coordinates.get(i).getItem1(); // lattitude
+            y = coordinates.get(i).getItem2(); // longitude
+            x = lattitudeToMeters(x);
+            y = longitudeToMeters(y);
+            euclideanDistToGoal.add(euclideanDistance(x, y, goalX, goalY));
+        }
     }
 }
