@@ -122,6 +122,7 @@ public class algo {
         // sebelumnya kita harus mengambil elemen pertama dari list, kemudian menambahkan elemen pertama dari list ke elemen terakhir dari list
         // dengan cara ini, kita hanya perlu mengambil elemen terakhir dari list 
         // selama indeks terakhir tidak sama dengan goal
+        boolean valid = true;
         while (! PrioQueue.peek().getItem1().get(PrioQueue.peek().getItem1().size() - 1).equals(goal)) { 
             // ambil elemen pertama dari queue
             Tuple<List<Integer>, Double> temp = PrioQueue.poll();
@@ -152,11 +153,17 @@ public class algo {
                         fn = gn + hn.get(i);
                     }
                     // print fn
-                    System.out.println("fn = " + fn);
+                    // System.out.println("fn = " + fn);
                     Tuple<List<Integer>, Double> tempTuple = new Tuple<List<Integer>, Double>(tempList, fn);
                     // add tempTuple to PrioQueue with priority from lowest Integer to highest Integer from second element of tuple
                     PrioQueue.add(tempTuple);
                 }
+            }
+            // jika queue kosong, maka path tidak ditemukan
+            if (PrioQueue.isEmpty()) {
+                System.out.println("Path not found");
+                valid = false;
+                break;
             }
         }
         Tuple<List<Integer>, Double> tempPath = PrioQueue.poll();

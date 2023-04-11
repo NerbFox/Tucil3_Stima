@@ -211,7 +211,95 @@ class input {
                 }
             }
         }
+        boolean pathValid = false;
+        // check id there is a path from start to goal using BFS
+        int n_nodes = adjacencyMatrix.get(0).size(); 
+        boolean[] visited = new boolean[n_nodes];
+        Queue<Integer> q = new LinkedList<Integer>();
+        // initialize visited array
+        for (int i = 0; i < n_nodes; i++){
+            visited[i] = false;
+        }
+        visited[start] = true;
+        q.add(start);
+        while (!q.isEmpty()){
+            int u = q.poll();
+            // check if goal is reachable
+            if (u == goal){
+                pathValid = true;
+                break;
+            }
+            for (int i = 0; i < n_nodes; i++){
+                if ((! adjacencyMatrix.get(u).get(i).equals(0))&& !visited[i]){
+                    visited[i] = true;
+                    q.add(i);
+                }
+            }
+        }
+
+        // selama start dan goal tidak valid, minta input ulang
+        while(!pathValid){
+            System.out.println("Tidak ada jalur dari simpul awal ke simpul tujuan");
+            System.out.print("Masukkan nama posisi awal: ");
+            startName = inp.nextLine();
+            System.out.print("Masukkan nama posisi tujuan: ");
+            goalName = inp.nextLine();
+            start = -1; goal = -1;
+            for (int i = 0; i < names.size(); i++){
+                if (names.get(i).equals(startName)){
+                    start = i;
+                }
+                if (names.get(i).equals(goalName)){
+                    goal = i;
+                }
+            }
+            while(start == -1 || goal == -1){
+                System.out.println("Nama simpul tidak ditemukan");
+                System.out.print("Masukkan nama posisi awal: ");
+                startName = inp.nextLine();
+                System.out.print("Masukkan nama posisi tujuan: ");
+                goalName = inp.nextLine();
+                start = -1; goal = -1;
+                for (int i = 0; i < names.size(); i++){
+                    if (names.get(i).equals(startName)){
+                        start = i;
+                    }
+                    if (names.get(i).equals(goalName)){
+                        goal = i;
+                    }
+                }
+            }
+            // check if there is a path from start to goal using BFS
+            n_nodes = adjacencyMatrix.get(0).size(); 
+            visited = new boolean[n_nodes];
+            q = new LinkedList<Integer>();
+            // initialize visited array
+            for (int i = 0; i < n_nodes; i++){
+                visited[i] = false;
+            }
+            visited[start] = true;
+            q.add(start);
+            while (!q.isEmpty()){
+                int u = q.poll();
+                // check if goal is reachable
+                if (u == goal){
+                    pathValid = true;
+                    break;
+                }
+                for (int i = 0; i < n_nodes; i++){
+                    if ((! adjacencyMatrix.get(u).get(i).equals(0))&& !visited[i]){
+                        visited[i] = true;
+                        q.add(i);
+                    }
+                }
+            }
+        }
         
+        
+        System.out.println("Start dan goal valid");
+        // // enter untuk lanjut
+        // System.out.println("Tekan enter untuk melanjutkan");
+        // inp.nextLine();
         // menghitung jarak dari simpul ke goal dan memasukkannya ke dalam euclideanDistToGoal
         Double goalX = coordinates.get(goal).getItem1();
         Double goalY = coordinates.get(goal).getItem2();
@@ -278,3 +366,47 @@ class input {
         }
     }
 }
+
+ // // cek apakah start dan goal valid yaitu pasti ada jalur dari start ke goal
+        // while (!pathValid){
+        //     pathValid = true;
+        //     for (int i = 0; i < adjacencyMatrix.size(); i++){
+        //         if (adjacencyMatrix.get(start).get(i) == 1 && adjacencyMatrix.get(i).get(goal) == 1){
+        //             pathValid = false;
+        //             break;
+        //         }
+        //         System.out.println("valid");
+        //     }
+        //     if (!pathValid){
+        //         System.out.println("Tidak ada jalur dari " + startName + " ke " + goalName);
+        //         System.out.print("Masukkan nama posisi awal: ");
+        //         startName = inp.nextLine();
+        //         System.out.print("Masukkan nama posisi tujuan: ");
+        //         goalName = inp.nextLine();
+        //         start = -1; goal = -1;
+        //         for (int i = 0; i < names.size(); i++){
+        //             if (names.get(i).equals(startName)){
+        //                 start = i;
+        //             }
+        //             if (names.get(i).equals(goalName)){
+        //                 goal = i;
+        //             }
+        //         }
+        //         while(start == -1 || goal == -1){
+        //             System.out.println("Nama simpul tidak ditemukan");
+        //             System.out.print("Masukkan nama posisi awal: ");
+        //             startName = inp.nextLine();
+        //             System.out.print("Masukkan nama posisi tujuan: ");
+        //             goalName = inp.nextLine();
+        //             start = -1; goal = -1;
+        //             for (int i = 0; i < names.size(); i++){
+        //                 if (names.get(i).equals(startName)){
+        //                     start = i;
+        //                 }
+        //                 if (names.get(i).equals(goalName)){
+        //                     goal = i;
+        //                 }
+        //             }
+        //         }
+        //     }
+        // }
