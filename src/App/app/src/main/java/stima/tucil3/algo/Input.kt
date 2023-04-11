@@ -60,26 +60,29 @@ class Input {
     fun euclideanDistance(x1: Double, y1: Double, x2: Double, y2: Double): Double{
         return Math.sqrt(Math.pow(x1 - x2, 2.0) + Math.pow(y1 - y2, 2.0))
     }
-    fun lattitudeToMeters(lattitude: Double?): Double {
-        val EarthRadius = 6371000.0
-        val lat = Math.toRadians(lattitude!!)
-        return EarthRadius * Math.log(Math.tan(Math.PI / 4 + lat / 2))
+    fun lattitudeToMeters(lattitude: Double): Double {
+//        val EarthRadius = 6371000.0
+//        val lat = Math.toRadians(lattitude!!)
+//        return EarthRadius * Math.log(Math.tan(Math.PI / 4 + lat / 2))
+        return lattitude * 111319
     }
 
-    fun longitudeToMeters(longitude: Double?): Double {
-        val EarthRadius = 6371000.0
-        return Math.toRadians(longitude!!) * EarthRadius
+    fun longitudeToMeters(longitude: Double): Double {
+//        val EarthRadius = 6371000.0
+//        return Math.toRadians(longitude!!) * EarthRadius
+        return longitude * 111319
     }
 
     // change euclidean distance to meters
     fun changeEuclideanToMeters() {
         // clear euclideanDistToGoal
         euclideanDistToGoal.clear()
-        var goalX: Double? = coordinates[goal].first
-        val goalY: Double = coordinates[goal].second
+        var goalX: Double = coordinates[goal].first
+        var goalY: Double = coordinates[goal].second
         goalX = lattitudeToMeters(goalX)
-        var x: Double?
-        var y: Double?
+        goalY = lattitudeToMeters(goalY)
+        var x: Double
+        var y: Double
         for (i in coordinates.indices) {
             x = coordinates[i].first // lattitude
             y = coordinates[i].second // longitude

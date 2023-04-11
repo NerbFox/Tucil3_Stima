@@ -249,13 +249,16 @@ class input {
         return Math.sqrt(Math.pow(x1 - x2, 2) + Math.pow(y1 - y2, 2));
     }
     public Double lattitudeToMeters(Double lattitude){
-        Double EarthRadius = 6371000.0;
-        Double lat = Math.toRadians(lattitude);
-        return EarthRadius * Math.log(Math.tan(Math.PI / 4 + lat / 2));
+        // Double EarthRadius = 6371000.0;
+        // Double lat = Math.toRadians(lattitude);
+        // return EarthRadius * Math.log(Math.tan(Math.PI / 4 + lat / 2));
+        // agar lebih cepat dikali konsan
+        return lattitude * 111319;
     }
     public Double longitudeToMeters(Double longitude){
-        Double EarthRadius = 6371000.0;
-        return Math.toRadians(longitude) * EarthRadius;
+        // Double EarthRadius = 6371000.0;
+        // return Math.toRadians(longitude) * EarthRadius;
+        return longitude * 111319;
     }
     // change euclidean distance to meters
     public void changeEuclideanToMeters(){
@@ -264,7 +267,7 @@ class input {
         Double goalX = coordinates.get(goal).getItem1();
         Double goalY = coordinates.get(goal).getItem2();
         goalX = lattitudeToMeters(goalX);
-        
+        goalY = longitudeToMeters(goalY);
         Double x, y;
         for (int i = 0; i < coordinates.size(); i++){
             x = coordinates.get(i).getItem1(); // lattitude
