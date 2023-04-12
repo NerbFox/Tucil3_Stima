@@ -14,9 +14,9 @@ Tugas Kecil 3 IF2211 – Strategi Algoritma Tahun 2022/2023
 
 
 ## General Information
-### Perencanaan rute (route planning) adalah proses menentukan rute atau jalur terbaik dari suatu lokasi ke lokasi lain. Dalam perencanaan rute, terdapat dua jenis algoritma utama yang digunakan, yaitu algoritma tidak terinformasi (uninformed) dan algoritma terinformasi (informed). Terdapat UCS (Uniform Cost Search) sebagai algoritma uninformed search dan A* sebagai algoritma informed search. 
+Perencanaan rute (route planning) adalah proses menentukan rute atau jalur terbaik dari suatu lokasi ke lokasi lain. Dalam perencanaan rute, terdapat dua jenis algoritma utama yang digunakan, yaitu algoritma tidak terinformasi (uninformed) dan algoritma terinformasi (informed). Terdapat UCS (Uniform Cost Search) sebagai algoritma uninformed search dan A* sebagai algoritma informed search. 
 
-### Algoritma UCS (Uniform cost search) dan A* (atau A star) dapat digunakan untuk menentukan lintasan terpendek dari suatu titik ke titik lain. Pada tugas kecil 3 ini dihasilka penentuan lintasan terpendek berdasarkan peta Google Map jalan-jalan di kota Bandung. Dari ruas-ruas jalan di peta dibentuk graf. Simpul menyatakan persilangan jalan (simpang 3, 4 atau 5) atau ujung jalan.
+Algoritma UCS (Uniform cost search) dan A* (atau A star) dapat digunakan untuk menentukan lintasan terpendek dari suatu titik ke titik lain. Pada tugas kecil 3 ini dihasilka penentuan lintasan terpendek berdasarkan peta Google Map jalan-jalan di kota Bandung. Dari ruas-ruas jalan di peta dibentuk graf. Simpul menyatakan persilangan jalan (simpang 3, 4 atau 5) atau ujung jalan.
 
 
 ## Technologies Used
