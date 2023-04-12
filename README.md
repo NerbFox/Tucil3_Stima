@@ -47,7 +47,7 @@ A* adalah algoritma yang menggabungkan teknik dari BFS dan Greedy Best First Sea
 
 ## How to Run
 Android APK
-1. Download the app from [here](..\src\Release\Nerb.apk)
+1. Download the app from [here](https://github.com/NerbFox/Tucil3_Stima/blob/main/src/Release/Nerb.apk)
 2. Install the application on your android device
 3. Enable necessary permissions (Install from unknown sources, file permission, etc)
 4. Enjoy
