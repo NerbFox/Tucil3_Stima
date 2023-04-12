@@ -46,8 +46,7 @@ A* adalah algoritma yang menggabungkan teknik dari BFS dan Greedy Best First Sea
 
 
 ## How to Run
-1. 
-
+1. Download the app from [here](..\src\App\app\build\outputs\apk\debug\Nerb.apk)
 
 ## Project Status
 <!-- Project is: _complete_  -->
