@@ -96,7 +96,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                         markerList.add(map!!.addMarker(place)!!)
                     }
 
-                    map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(validator.coordinates[0].first, validator.coordinates[0].second), 16.5F))
+                    map!!.animateCamera(CameraUpdateFactory.newLatLng(LatLng(validator.coordinates[0].first, validator.coordinates[0].second)))
 
                     map!!.setOnMarkerClickListener { marker ->
                         println(lastPick)
@@ -270,7 +270,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                         mark.showInfoWindow()
                         mark.alpha = 1F
 
-                        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                        map!!.animateCamera(CameraUpdateFactory.newLatLng(LatLng(mark.position.latitude, mark.position.longitude)))
                     }
                 } catch (e: Exception){
                     println(e.message)
@@ -290,7 +290,7 @@ class MapsFragment : Fragment(), OnMapReadyCallback, AdapterView.OnItemSelectedL
                         mark.showInfoWindow()
                         mark.alpha = 1F
 
-                        map!!.animateCamera(CameraUpdateFactory.newLatLngZoom(LatLng(mark.position.latitude, mark.position.longitude), 16.5F))
+                        map!!.animateCamera(CameraUpdateFactory.newLatLng(LatLng(mark.position.latitude, mark.position.longitude)))
                     }
                 } catch (e: Exception){
                     println(e.message)
